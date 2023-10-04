@@ -36,6 +36,9 @@ func TestParse(t *testing.T) {
 	if _, _, _, _, err := p.parse(json.RawMessage(ThreadRemovedByCategoryModerator)); err != nil {
 		t.Errorf("failed to parse input ThreadRemovedByCategoryModerator: %v", err)
 	}
+	if _, _, _, _, err := p.parse(json.RawMessage(ThreadVarientPreviewMP4s)); err != nil {
+		t.Errorf("failed to parse input ThreadVarientPreviewMP4s: %v", err)
+	}
 }
 
 func TestParseThread(t *testing.T) {
@@ -417,6 +420,79 @@ func TestParserParseThreadCrossPostParentHasGallery(t *testing.T) {
 	}
 	if posts[0].CrosspostParentList[0].MediaMetadata["xbx835ucchda1"].ID != "xbx835ucchda1" {
 		t.Errorf("posts[0].CrosspostParentList[0].MediaMetadata[\"xbx835ucchda1\"].ID incorrect: %s", posts[0].CrosspostParentList[0].MediaMetadata["xbx835ucchda1"].ID)
+	}
+}
+
+func TestParserParseThreadPreviewGallery(t *testing.T) {
+	post, err := parseThread(json.RawMessage(ThreadVarientPreviewMP4s))
+	if err != nil {
+		t.Fatalf("failed to parse: %v", err)
+	}
+	if post == nil {
+		t.Fatalf("post is nil")
+	}
+
+	if !strings.HasPrefix(post.Title, "[A] Bloody Stream - Joseph Joestar (Drawn in Procreate with iPad)") {
+		t.Errorf("post title incorrect: %s", post.Title)
+	}
+
+	if post.Author != "vonnesaur" {
+		t.Errorf("post author incorrect: %s", post.Author)
+	}
+	if post.RemovedByCategory != "" {
+		t.Errorf("post removedByCategory incorrect: %s", post.RemovedByCategory)
+	}
+
+	if post.Preview.Images == nil {
+		t.Errorf("post preview.images is nil")
+	}
+	if len(post.Preview.Images) != 1 {
+		t.Errorf("len(post.Preview.Images) != 1 : equals %d", len(post.Preview.Images))
+	}
+	if post.Preview.Images[0].Source.URL != "https://preview.redd.it/3xezboy014gb1.gif?format=png8&amp;s=00a7902863c48a8c53c4278c0c0e8dcea57150c7" {
+		t.Errorf("post.Preview.Images[0].Source.URL"+
+			" https://preview.redd.it/3xezboy014gb1.gif?format=png8&amp;s=00a7902863c48a8c53c4278c0c0e8dcea57150c7!= %s",
+			post.Preview.Images[0].Source.URL)
+	}
+	if post.Preview.Images[0].Source.Width != 1200 {
+		t.Errorf("post.Preview.Images[0].Source.Width"+
+			" 1200 !=  %d",
+			post.Preview.Images[0].Source.Width)
+	}
+	if post.Preview.Images[0].Source.Height != 900 {
+		t.Errorf("post.Preview.Images[0].Source.Height"+
+			" 900 !=  %d",
+			post.Preview.Images[0].Source.Height)
+	}
+	if post.Preview.Images[0].Variants.GIF.Source.URL != "https://preview.redd.it/3xezboy014gb1.gif?s=a2673141a75c81f4a4ab9199f77450689eca3840" {
+		t.Errorf(" post.Preview.Images[0].Variants.GIF.Source.URL"+
+			" https://preview.redd.it/3xezboy014gb1.gif?s=a2673141a75c81f4a4ab9199f77450689eca3840 !=  %s",
+			post.Preview.Images[0].Variants.GIF.Source.URL)
+	}
+	if post.Preview.Images[0].Variants.GIF.Source.Width != 1200 {
+		t.Errorf("post.Preview.Images[0].Source.Width"+
+			" 1200 !=  %d",
+			post.Preview.Images[0].Variants.GIF.Source.Width)
+	}
+	if post.Preview.Images[0].Variants.GIF.Source.Height != 900 {
+		t.Errorf("post.Preview.Images[0].Source.Height"+
+			" 900 !=  %d",
+			post.Preview.Images[0].Variants.GIF.Source.Height)
+	}
+	if post.Preview.Images[0].Variants.MP4.Source.URL != "https://preview.redd.it/3xezboy014gb1.gif?format=mp4&amp;s=3d4f1094e5253c8a27ace08d4c7b742097e4cdc6" {
+		t.Errorf(" post.Preview.Images[0].Variants.MP4.Source.URL"+
+			" https://preview.redd.it/3xezboy014gb1.gif?format=mp4&amp;s=3d4f1094e5253c8a27ace08d4c7b742097e4cdc6 !=  %s",
+			post.Preview.Images[0].Variants.MP4.Source.URL)
+	}
+	if post.Preview.Images[0].Variants.MP4.Source.Width != 1200 {
+		t.Errorf("post.Preview.Images[0].Source.Width"+
+			" 1200 !=  %d",
+			post.Preview.Images[0].Variants.MP4.Source.Width)
+	}
+	if post.Preview.Images[0].Variants.MP4.Source.Height != 900 {
+		t.Errorf("post.Preview.Images[0].Source.Height"+
+			" 900 !=  %d",
+			post.Preview.Images[0].Variants.MP4.Source.Height)
 	}
 }
 
