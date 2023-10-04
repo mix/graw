@@ -139,13 +139,24 @@ type PostPreview struct {
 	RedditVideoPreview *PostPreviewRedditVideoPreview `mapstructure:"reddit_video_preview"`
 }
 type PostPreviewImageSet struct {
-	Source PostPreviewImageMedia `mapstructure:"source"`
+	Source   PostPreviewImageMedia      `mapstructure:"source"`
+	Variants PostPreviewImageVariantSet `mapstructure:"variants"`
 }
 type PostPreviewImageMedia struct {
 	URL    string `mapstructure:"url"`
 	Height int    `mapstructure:"height"`
 	Width  int    `mapstructure:"width"`
 }
+
+type PostPreviewImageVariantSet struct {
+	GIF PostPreviewImageVariant `mapstructure:"gif"`
+	MP4 PostPreviewImageVariant `mapstructure:"mp4"`
+}
+
+type PostPreviewImageVariant struct {
+	Source PostPreviewImageMedia `mapstructure:"source"`
+}
+
 type PostPreviewRedditVideoPreview struct {
 	BitrateKPBS       int    `mapstructure:"bitrate_kbps"`
 	FallbackURL       string `mapstructure:"fallback_url"`
