@@ -36,6 +36,7 @@ func TestDo(t *testing.T) {
 	}{
 		{[]byte("expected"), http.StatusOK, nil},
 		{nil, http.StatusForbidden, PermissionDeniedErr},
+		{nil, http.StatusNotFound, NotFoundErr},
 		{nil, http.StatusServiceUnavailable, BusyErr},
 		{nil, http.StatusTooManyRequests, RateLimitErr},
 		{nil, http.StatusBadGateway, GatewayErr},
