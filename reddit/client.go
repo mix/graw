@@ -45,6 +45,8 @@ func (b *baseClient) Do(req *http.Request) ([]byte, error) {
 	case http.StatusOK:
 	case http.StatusForbidden:
 		return nil, PermissionDeniedErr
+	case http.StatusNotFound:
+		return nil, NotFoundErr
 	case http.StatusServiceUnavailable:
 		return nil, BusyErr
 	case http.StatusTooManyRequests:
