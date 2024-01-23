@@ -343,6 +343,40 @@ func TestParserParseThreadGallery(t *testing.T) {
 	}
 }
 
+func TestParserParseThreadGalleryVariant2(t *testing.T) {
+	p := newParser()
+	_, posts, _, _, err := p.parse([]byte(ThreatImageGalleryVariant2))
+	if err != nil {
+		t.Fatalf("failed to parse: %v", err)
+	}
+	if posts[0] == nil {
+		t.Fatalf("posts[0] is nil")
+	}
+
+	if posts[0].Title != "Day 4: Something British. “What Goes On” by The Beatles, from the album “Rubber Soul”." {
+		t.Errorf("posts[0] title incorrect: %s", posts[0].Title)
+	}
+
+	if posts[0].Author != "[deleted]" {
+		t.Errorf("posts[0] author incorrect: %s", posts[0].Author)
+	}
+	if len(posts[0].MediaMetadata) != 3 {
+		t.Errorf("posts[0] len(posts[0].MediaMetadata) incorrect: %d", len(posts[0].MediaMetadata))
+	}
+	if len(posts[0].GalleryData.Items) != 3 {
+		t.Errorf("posts[0] len(posts[0].GalleryData) incorrect: %d", len(posts[0].GalleryData.Items))
+	}
+	if posts[0].GalleryData.Items[0].ID != 149288299 {
+		t.Errorf("posts[0] GalleryData.Items[0].ID incorrect: %d", posts[0].GalleryData.Items[0].ID)
+	}
+	if posts[0].GalleryData.Items[0].MediaId != "z69tvckhsm391" {
+		t.Errorf("posts[0] GalleryData.Items[0].MediaId incorrect: %s", posts[0].GalleryData.Items[0].MediaId)
+	}
+	if posts[0].MediaMetadata["z69tvckhsm391"].ID != "z69tvckhsm391" {
+		t.Errorf("posts[0] MediaMetadata[\"cyxb8fawmd1b1\"].ID incorrect: %s", posts[0].MediaMetadata["cyxb8fawmd1b1"].ID)
+	}
+}
+
 func TestParserParseThreadCrossPostParentDeleted(t *testing.T) {
 	p := newParser()
 	_, posts, _, _, err := p.parse([]byte(ThreadCrossPostParentDeleted))
