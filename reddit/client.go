@@ -47,6 +47,8 @@ func (b *baseClient) Do(req *http.Request) ([]byte, error) {
 		return nil, PermissionDeniedErr
 	case http.StatusNotFound:
 		return nil, NotFoundErr
+	case http.StatusInternalServerError:
+		return nil, InternalServerErr
 	case http.StatusServiceUnavailable:
 		return nil, BusyErr
 	case http.StatusTooManyRequests:
