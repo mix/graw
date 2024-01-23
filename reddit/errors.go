@@ -6,7 +6,8 @@ import (
 
 var (
 	PermissionDeniedErr   = fmt.Errorf("unauthorized access to endpoint")
-	NotFoundErr           = fmt.Errorf("unauthorized access to endpoint")
+	NotFoundErr           = fmt.Errorf("404 not found err")
+	InternalServerErr     = fmt.Errorf("500 internal server error")
 	BusyErr               = fmt.Errorf("Reddit is busy right now")
 	RateLimitErr          = fmt.Errorf("Reddit is rate limiting requests")
 	GatewayErr            = fmt.Errorf("502 bad gateway code from Reddit")
